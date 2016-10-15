@@ -20,8 +20,8 @@ class List {
   public:
     List() { head = NULL; };
     void Print();
-    void Append(int data);
-    void Delete(int data);
+    bool Append(int data);
+    bool Delete(int data);
 };
 
 /**
@@ -60,7 +60,7 @@ void List::Print() {
 /**
  * Append a node to the linked list
  */
-void List::Append(int data) {
+bool List::Append(int data) {
 
     // Create a new node
     Node* newNode = new Node();
@@ -84,19 +84,20 @@ void List::Append(int data) {
     // First node in the list
     head = newNode;
     }
+    return true;
 }
 
 /**
  * Delete a node from the list
  */
-void List::Delete(int data) {
+bool List::Delete(int data) {
 
     // Create a temp pointer
     Node *tmp = head;
 
     // No nodes
     if ( tmp == NULL )
-    return;
+    return false;
 
     bool isMatch = false;
 
@@ -105,8 +106,9 @@ void List::Delete(int data) {
         if(tmp->Data() == data){
         head = NULL;
         delete tmp;
+        return true;
         }
-        return;
+        return false;
     }
     else {
     // Parse thru the nodes
@@ -132,9 +134,9 @@ void List::Delete(int data) {
         prev->SetNext(tmp->Next());
     // Delete the current node
     delete tmp;
+    
     }
-    else
-        return;
+    return isMatch;
     }
 }
 
@@ -143,6 +145,40 @@ int main()
     // New list
     List list;
 
+    cout << "Welcome to the Linked List Demo!" << endl;
+
+    int choice;
+
+    do{
+        
+        cout << "Please type an int from 1-4 for the following choices: " << endl;
+
+        cout << "(1) Add to list\n(2) Delete from list\n(3) View Linked List\n(4) Exit\n";
+
+        cin >> choice;
+
+        switch(choice){
+            int subchoice;
+            case 1: cout << "Number to add?: ";
+                    cin >> subchoice;
+                    if(list.Append(subchoice))
+                        cout << "Success! " << subchoice << " added to LL!" << endl;
+                        break;
+            case 2: cout << "Number to delete?: ";
+                    cin >> subchoice;
+                    if(list.Delete(subchoice))
+                        cout << "Success! First instance of " << subchoice << " removed from LL!" << endl;
+                        else
+                            cout << "Please try again! Either list is empty or entered value has no matches in LL!" << endl;
+                        break;
+            case 3: list.Print();
+  
+        }
+
+    }while(choice != 4);
+
+    cout << "Thanks for playing!" << endl;
+    /*
     list.Print();
 
     // Append nodes to the list
@@ -179,4 +215,5 @@ int main()
     list.Print();
     list.Delete(26);
     list.Print();
+    */
 }
