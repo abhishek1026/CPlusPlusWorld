@@ -113,6 +113,8 @@ int main(){
 
     int counterend = 0;
 
+    int counterfor = 0;
+
     string scanthis = ""; //string that will be populated with every non whitespace character in input file.
 
     ifstream look; 
@@ -187,20 +189,24 @@ int main(){
                             }
                         }   
                         else if(isLarge(iden) && (iden == "BEGIN" || iden == "FOR" || iden == "END")){
+                        if(iden == "FOR"){
+                            counterfor++;
+                        }
                         if(iden == "BEGIN"){
+                            cr++;
                             counterbeg++;
                         }
                         if(iden == "END"){
                             counterend++;
                             cr--;
                         }
-                        if(iden == "FOR"){
-                            cr++;
-                        }
                         if(cr>max){
                             max = cr;
                         }
-                        
+                        if(counterend == counterfor){
+                                counterbeg = counterend = counterfor = 0;
+                                cr = -1;
+                        }
 
                         if(getInd(key.getArr(),iden) == -1){
                             key.push(iden);
@@ -277,9 +283,9 @@ int main(){
 
 //Outputs the maximum depth of given nested for loops in the text file.
 
-    
+    int depth = max + 1;
 
-    cout << "The maximum depth of the nested loops is: " << max << endl;
+    cout << "The maximum depth of the nested loops is: " << depth << endl;
 
 
 /* The following 6 blocks of code give the output pertaining to keywords, identifiers, constants,
