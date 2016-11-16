@@ -103,34 +103,15 @@ int main(){
     }
 
 
-    ifstream test;
-
-    test.open(name.c_str());
-
-    int top = -1; //used to verify, after going through while loop, whether code is balanced (BEGIN,END).
-
-
     Stack errors; //stack that holds syntax errors
-    
-    while(!test.eof()){
-        string chk = "";
-        test >> chk;
-       if(chk == "BEGIN"){
-               top++;
-           }
-        else if (chk == "END"){
-            top--;
-        }
-       }
 
-       if(top>-1){
-           errors.push("KEYWORDS NOT BALANCED(TOO MANY BEGIN)!");
-       }
+    int cr = -1; //counter variable used to help find maximum depth
 
+    int max = 0; //if cr ever exceeds max, max is reset to cr.
 
-       if(top<-1){
-           errors.push("KEYWORDS NOT BALANCED(TOO MANY END)!");
-       }
+    int counterbeg = 0;
+
+    int counterend = 0;
 
     string scanthis = ""; //string that will be populated with every non whitespace character in input file.
 
@@ -190,24 +171,37 @@ int main(){
         }
         //checks whether given index of string is alphanumeric, and performs necessary tasks to determine and detect identifiers and keywords.
         if(isalpha(scanthis[i])){
-            if(!isalpha(scanthis[i+1])){
-                iden += scanthis[i];
-                if(getInd(id.getArr(),iden) == -1){
+            if(!isalpha(scanthis[i+1]) || (islower(scanthis[i]) && isupper(scanthis[i+1])) || (isupper(scanthis[i]) && islower(scanthis[i+1])) || (scanthis[i+1] == 'F' && scanthis[i+2] == 'O' && scanthis[i+3] == 'R') || (scanthis[i+1] == 'E' && scanthis[i+2] == 'N' && scanthis[i+3] == 'D') || (scanthis[i+1] == 'B' && scanthis[i+2] == 'E' && scanthis[i+3] == 'G' && scanthis[i+4] == 'I' && scanthis[i+5] == 'N')){
+                    iden += scanthis[i];
                     bool keep = true;
                     while(keep){
                         if(isSmall(iden)){
-                        if(getInd(id.getArr(),iden) == -1){
+                            if(getInd(id.getArr(),iden) == -1){
                             id.push(iden);
                             keep = false;
-                        }
-                        else
-                        {
+                            }
+                            else
+                            {
                             keep = false;
                             continue;
+                            }
+                        }   
+                        else if(isLarge(iden) && (iden == "BEGIN" || iden == "FOR" || iden == "END")){
+                        if(iden == "BEGIN"){
+                            counterbeg++;
                         }
-                    }
+                        if(iden == "END"){
+                            counterend++;
+                            cr--;
+                        }
+                        if(iden == "FOR"){
+                            cr++;
+                        }
+                        if(cr>max){
+                            max = cr;
+                        }
+                        
 
-                    else if(isLarge(iden) && (iden == "BEGIN" || iden == "FOR" || iden == "END")){
                         if(getInd(key.getArr(),iden) == -1){
                             key.push(iden);
                             keep = false;
@@ -217,8 +211,8 @@ int main(){
                             keep = false;
                             continue;
                         }
-                    }
-                    else{
+                        }
+                        else{
                         if(getInd(errors.getArr(),iden) == -1){
                             errors.push(iden);
                             keep = false;
@@ -228,75 +222,64 @@ int main(){
                             keep = false;
                             continue;
                         }
-
-                    }
                     }
 
-           }
-                iden = "";
-            }
+
+                    }
+                    iden = "";
+            } 
             else
                 {
                     iden += scanthis[i];
                 }
-        }
-        //checks whether the given index of string constitutes a delimeters, and performs appropriate tasks to store those delimeters.
-        if(scanthis[i] == ',' || scanthis[i] == ';'){
-            deli = scanthis[i];
-            if(getInd(delim.getArr(),deli) == -1){
-                delim.push(deli);
+                     
             }
-            deli = "";
-        }
-        //next two major if blocks check whether the given index of string contains operators, and takes necessary steps to store those operators.
-        if(scanthis[i] == '=' || scanthis[i] == '/' || scanthis[i] == '*' || scanthis[i] == '-')
-        {
-            ops = scanthis[i];
-            if(getInd(op.getArr(),ops) == -1){
-                op.push(ops);
+            
+            
+
+            //checks whether the given index of string constitutes a delimeters, and performs appropriate tasks to store those delimeters.
+            if(scanthis[i] == ',' || scanthis[i] == ';'){
+                deli = scanthis[i];
+                if(getInd(delim.getArr(),deli) == -1){
+                    delim.push(deli);
+                }
+                deli = "";
+            }
+            //next two major if blocks check whether the given index of string contains operators, and takes necessary steps to store those operators.
+            if(scanthis[i] == '=' || scanthis[i] == '/' || scanthis[i] == '*' || scanthis[i] == '-')
+            {
+                ops = scanthis[i];
+                if(getInd(op.getArr(),ops) == -1){
+                    op.push(ops);
+                }
+                ops = "";
+
+            }
+            if(scanthis[i] == '+'){
+                ops = scanthis[i];
+                if(scanthis[i+1] == '+'){
+                    ops += scanthis[i+1];
+                    if(getInd(op.getArr(),ops) == -1){
+                        op.push(ops);
+                }
+                }
+                else{
+                    if(getInd(op.getArr(),ops) == -1){
+                        op.push(ops);
+                }
             }
             ops = "";
 
         }
-        if(scanthis[i] == '+'){
-            ops = scanthis[i];
-            if(scanthis[i+1] == '+'){
-                ops += scanthis[i+1];
-                if(getInd(op.getArr(),ops) == -1){
-                    op.push(ops);
-            }
-            }
-            else{
-                if(getInd(op.getArr(),ops) == -1){
-                    op.push(ops);
-            }
         }
-        ops = "";
 
-    }
-    }
+    
 
 //Outputs the maximum depth of given nested for loops in the text file.
 
     
 
-    int cr = -1; //counter variable used to help find maximum depth
-
-    int max = 0; //if cr ever exceeds max, max is reset to cr.
-
-    while(!test1.eof()){
-        string ck = "";
-        test1 >> ck;
-       if(ck == "FOR")
-        cr++;
-        else if (ck == "END")
-        cr--;
-       if(cr>max){
-           max = cr;
-       }
-       }
-
-       cout << "The maximum depth of the nested loops is: " << max << endl;
+    cout << "The maximum depth of the nested loops is: " << max << endl;
 
 
 /* The following 6 blocks of code give the output pertaining to keywords, identifiers, constants,
@@ -350,9 +333,21 @@ int main(){
         cout << delim.pop() << endl;
     }
 
+    if(counterbeg>counterend){
+        errors.push("CODE IS IMBALANCED(TOO MANY BEGIN)!");
+    }
+
+    else if(counterend>counterbeg){
+        errors.push("CODE IS IMBALANCED(TOO MANY END)!");
+    }
 
 
     cout << "Syntax Error(s): ";
+
+    if(errors.getTop() == -1){
+        cout << endl;
+        return 0;
+    }
 
     while(!errors.isEmpty()){
         if(errors.getTop()>0)
@@ -365,4 +360,6 @@ int main(){
     //terminate program and return 0, indicating success.
 
     return 0;
+
+
 }

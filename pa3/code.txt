@@ -1,1 +1,1 @@
-FOR (i, 10, ++) BEGIN BEGIN BEGIN  FOR (j, 10, ++) BEGIN FOR BEGIN END  sum=sum + i + j; diff= i-j+25; FUDGE = diff - 25; END END END
+FOR(i,10,++)BEGINFOR(j,10,++)BEGINENDFOR(k,10,++)BEGINsum=sum+i+j;ENDEND
