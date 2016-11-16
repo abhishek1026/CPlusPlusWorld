@@ -1,0 +1,96 @@
+03:38:48 **** Build of configuration Debug for project pa2 ****
+make all 
+Building file: ../pa2.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pa2.d" -MT"pa2.o" -o "pa2.o" "../pa2.cpp"
+Finished building: ../pa2.cpp
+ 
+Building target: pa2
+Invoking: MacOS X C++ Linker
+g++  -o "pa2"  ./pa2.o   
+Finished building target: pa2
+ 
+03:38:54 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+make: Nothing to be done for `all'.
+03:40:28 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+Building file: ../pa2.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pa2.d" -MT"pa2.o" -o "pa2.o" "../pa2.cpp"
+Finished building: ../pa2.cpp
+ 
+Building target: pa2
+Invoking: MacOS X C++ Linker
+g++  -o "pa2"  ./pa2.o   
+Finished building target: pa2
+ 
+03:40:47 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+make: Nothing to be done for `all'.
+03:41:00 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+make: Nothing to be done for `all'.
+03:41:23 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+make: Nothing to be done for `all'.
+03:45:38 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+Building file: ../pa2.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pa2.d" -MT"pa2.o" -o "pa2.o" "../pa2.cpp"
+Finished building: ../pa2.cpp
+ 
+Building target: pa2
+Invoking: MacOS X C++ Linker
+g++  -o "pa2"  ./pa2.o   
+Finished building target: pa2
+ 
+03:45:54 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+make: Nothing to be done for `all'.
+03:51:43 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+make: Nothing to be done for `all'.
+03:51:54 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+make: Nothing to be done for `all'.
+04:09:38 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+Building file: ../pa2.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pa2.d" -MT"pa2.o" -o "pa2.o" "../pa2.cpp"
+Finished building: ../pa2.cpp
+ 
+Building target: pa2
+Invoking: MacOS X C++ Linker
+g++  -o "pa2"  ./pa2.o   
+Finished building target: pa2
+ 
+04:13:40 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+Building file: ../pa2.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pa2.d" -MT"pa2.o" -o "pa2.o" "../pa2.cpp"
+Finished building: ../pa2.cpp
+ 
+Building target: pa2
+Invoking: MacOS X C++ Linker
+g++  -o "pa2"  ./pa2.o   
+Finished building target: pa2
+ 
+04:14:46 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+Building file: ../pa2.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"pa2.d" -MT"pa2.o" -o "pa2.o" "../pa2.cpp"
+Finished building: ../pa2.cpp
+ 
+Building target: pa2
+Invoking: MacOS X C++ Linker
+g++  -o "pa2"  ./pa2.o   
+Finished building target: pa2
+ 
+04:15:03 **** Incremental Build of configuration Debug for project pa2 ****
+make all 
+make: Nothing to be done for `all'.

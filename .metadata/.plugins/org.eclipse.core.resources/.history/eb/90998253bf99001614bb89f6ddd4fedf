@@ -1,0 +1,537 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Node {
+    string data;
+    Node *next;
+
+  public:
+    Node() {};
+    void SetData(string aData) { data = aData; };
+    void SetNext(Node* aNext) { next = aNext; };
+    string Data() { return data; };
+    Node* Next() { return next; };
+};
+
+// List class
+class List {
+    Node *head;
+  public:
+    List() { head = NULL; };
+    Node* getHead(){return head;};
+    void setHead(Node* node){head = node;};
+    void Print();
+    bool Append(string data);
+    bool Delete(string data);
+};
+
+/**
+ * Print the contents of the list
+ */
+void List::Print() {
+
+    // Temp pointer
+    Node *tmp = head;
+
+    // No nodes
+    if ( tmp == NULL ) {
+    cout << "EMPTY" << endl;
+    return;
+    }
+
+    // One node in the list
+    if ( tmp->Next() == NULL ) {
+    cout << tmp->Data();
+    cout << " --> ";
+    cout << "NULL" << endl;
+    }
+    else {
+    // Parse and print the list
+    do {
+        cout << tmp->Data();
+        cout << " ";
+        tmp = tmp->Next();
+    }
+    while ( tmp != NULL );
+
+    cout << "NULL" << endl;
+    }
+}
+
+/**
+ * Append a node to the linked list
+ */
+bool List::Append(string data) {
+
+    // Create a new node
+    Node* newNode = new Node();
+    newNode->SetData(data);
+    newNode->SetNext(NULL);
+
+    // Create a temp pointer
+    Node *tmp = head;
+
+    if ( tmp != NULL ) {
+    // Nodes already present in the list
+    // Parse to end of list
+    while ( tmp->Next() != NULL ) {
+        tmp = tmp->Next();
+    }
+
+    // Point the last node to the new node
+    tmp->SetNext(newNode);
+    }
+    else {
+    // First node in the list
+    head = newNode;
+    }
+    return true;
+}
+
+/**
+ * Delete a node from the list
+ */
+bool List::Delete(string data) {
+
+    // Create a temp pointer
+    Node *tmp = head;
+
+    // No nodes
+    if ( tmp == NULL )
+    return false;
+
+    bool isMatch = false;
+
+    // only one node present in the list
+    if ( tmp->Next() == NULL ) {
+        if(tmp->Data() == data){
+        head = NULL;
+        delete tmp;
+        return true;
+        }
+        return false;
+    }
+    else {
+    // Parse thru the nodes
+    Node *prev;
+    int count = 0;
+    do {
+        if ( tmp->Data() == data ) {
+            if(count == 0)
+                prev = head;
+            isMatch = true;
+            break;
+        }
+        prev = tmp;
+        tmp = tmp->Next();
+        count++;
+    } while ( tmp != NULL );
+
+    // Adjust the pointers
+    if(isMatch){
+        if(count == 0)
+        head = tmp->Next();
+    else
+        prev->SetNext(tmp->Next());
+    // Delete the current node
+    delete tmp;
+
+    }
+    return isMatch;
+    }
+}
+
+void printList(List list){
+
+    Node* tmp = list.getHead();
+
+do {
+        for(int i = 0; i<8; i++){
+        cout << tmp->Data();
+        cout << " ";
+        tmp = tmp->Next();
+        }
+
+        cout << endl;
+
+    }
+    while ( tmp != NULL );
+
+}
+
+int printMenu(){
+
+    cout <<"1.Add program\n2.Kill program\n3.Fragmentation\n4.Print memory\n5.Exit" << endl;
+
+    cout << "choice- ";
+
+    int result;
+
+    cin >> result;
+
+    return result;
+}
+
+string getName(){
+
+    cout << "Program name - ";
+
+    string result;
+
+    cin >> result;
+
+    return result;
+}
+
+int getSize(){
+
+    cout << "Program size(KB) - ";
+
+    double result;
+
+    cin >> result;
+
+    if(result <=0)
+        {
+            cout << "Error: size must be positive!" << endl;
+            return -1;
+        }
+
+    if(result>0 && result<1)
+        return 1;
+
+    return result;
+}
+
+void addAtIndex(List l, int index, int len, string name){
+
+    int temp = len;
+    Node* tmp = l.getHead();
+    for(int i = 0; i<index; i++){
+        tmp = tmp->Next();
+    }
+    while(--len>=0){
+        tmp->SetData(name);
+        tmp = tmp->Next();
+    }
+
+    len = temp;
+
+    cout << "Program " << name << " added successfully: " << len << " page(s) used." << endl;
+}
+
+int getBiggestIndex(List l, int size){
+
+    Node* temp = l.getHead();
+
+    int maxSize= 0;
+
+    int counter = 0;
+
+    int whichInd = -1;
+
+    while(temp != NULL){
+
+
+        if(temp->Data() == "FREE"){
+
+            int currSize = 1;
+            int toAdd = size-1;
+            temp = temp->Next();
+            counter++;
+
+            while(temp->Data() == "FREE"){
+                currSize++;
+                toAdd--;
+                temp = temp->Next();
+                counter++;
+                if(counter == 32)
+                    break;
+        }
+            if(toAdd > 0)
+                continue;
+            if(currSize>maxSize){
+                maxSize = currSize;
+                whichInd = counter - (currSize);
+            }
+
+            }
+
+
+        else{
+            temp = temp->Next();
+            counter++;
+        }
+
+
+    }
+
+    return whichInd;
+
+}
+
+int getSmallestIndex(List l, int size){
+
+    Node* temp = l.getHead();
+
+    int minSize= 100;
+
+    int counter = 0;
+
+    int whichInd = -1;
+
+    while(temp != NULL){
+
+
+        if(temp->Data() == "FREE"){
+
+            int currSize = 1;
+            int toAdd = size-1;
+            temp = temp->Next();
+            counter++;
+
+            while(temp->Data() == "FREE"){
+                currSize++;
+                toAdd--;
+                temp = temp->Next();
+                counter++;
+                if(counter == 32)
+                    break;
+        }
+            if(toAdd > 0)
+                continue;
+            if(currSize<minSize){
+                minSize = currSize;
+                whichInd = counter - (currSize);
+            }
+
+            }
+
+
+        else{
+            temp = temp->Next();
+            counter++;
+        }
+
+
+    }
+
+    return whichInd;
+
+}
+
+void add(List l, string name, int size, bool worst){
+
+    int numPages;
+
+    if(size)
+
+    numPages = (size%4 == 0)? size/4 : (size/4) + 1;
+
+    if(numPages>32){
+        cout<< "Error: Not enough memory for Program " << name << endl;
+        return;
+    }
+    do{
+
+    Node* temp = l.getHead();
+
+    for(int i=0; i<32; i++){
+
+        if(temp->Data() == name){
+            cout << "Error, Program " << name << " already running!" << endl;
+            return;
+        }
+
+        temp = temp->Next();
+    }
+
+    }while(false);
+
+    int ind;
+    int check;
+    if(worst)
+        check = 1;
+    else
+        check = 2;
+    switch(check){
+
+        case 1: ind = getBiggestIndex(l,numPages);
+
+                    if(ind <0){
+                        cout<< "Error: Not enought memory for Program " << name << endl;
+                        return;
+                    }
+
+                   addAtIndex(l,ind,numPages,name);
+                   break;
+
+        case 2: ind = getSmallestIndex(l,numPages);
+
+                    if(ind <0){
+                        cout<< "Error: Not enought memory for Program " << name << endl;
+                        return;
+                    }
+                   addAtIndex(l,ind,numPages,name);
+    }
+
+
+}
+
+void deleteProcess(List l, string name){
+
+    bool isInList = false;
+
+    Node* temp = l.getHead();
+
+    for(int i=0; i<32; i++){
+        if(temp->Data() == name){
+            isInList = true;
+            break;
+        }
+        temp = temp->Next();
+}
+
+    if(!isInList){
+        cout << "Error: No program has a name matching " << name << endl;
+        return;
+    }
+    int count = 0;
+
+    while(temp->Data() == name){
+        temp->SetData("FREE");
+        count++;
+        if(temp->Next() != NULL)
+        temp = temp->Next();
+        else{
+        break;
+        }
+
+
+    }
+
+    cout << "Process " << name << " successfully terminated. " << count << " page(s) reclaimed!" << endl;
+        }
+void getFrag(List l){
+
+    int numFrag = 0;
+
+
+
+    Node* yo = l.getHead();
+
+    while(yo != NULL){
+        string check;
+
+        if(yo->Next() != NULL)
+            check = (yo->Next())->Data();
+        else
+            break;
+        if(yo->Data() == "FREE" && check != "FREE")
+            {
+                bool toAdd = true;
+                numFrag++;
+                yo = yo->Next();
+                while(yo->Data() != "FREE")
+                    {
+                        if(yo->Next() != NULL){
+                        yo = yo->Next();
+                        }
+                      else{
+                        toAdd = false;
+                        break;
+                        }
+
+                    }
+                    if(toAdd)
+                    numFrag++;
+            }
+            else if(yo->Data() != "FREE" && check == "FREE"){
+                numFrag++;
+                yo = yo->Next();
+                while(yo->Data() == "FREE")
+                    {
+                        if(yo->Next() != NULL){
+                            yo = yo->Next();
+                        }
+
+                        if(yo->Next() == NULL){
+                        break;
+                        }
+                    }
+            }
+            else
+             yo = yo->Next();
+    }
+
+    cout << "Number of fragmentations: " << numFrag << endl;
+}
+
+
+int main(int argc, char* argv[]){
+
+    if(argc == 1)
+        return -1;
+
+    if((strncmp(argv[1],"worst", 5) != 0) && (strncmp(argv[1],"best", 4) != 0))
+        return -1;
+
+    string alg = argv[1];
+
+
+    bool useWorst = true;
+
+   if(alg == "worst")
+         useWorst = true;
+
+    else
+        useWorst = false;
+
+
+
+    List process;
+
+    for(int i= 0; i<32; i++)
+        process.Append("FREE");
+
+
+    int choice;
+    do{
+        choice = printMenu();
+
+        if(choice == 5)
+            continue;
+
+        string name;
+
+        int size;
+
+        switch(choice){
+
+            case 1: name = getName();
+                    size = getSize();
+                    if(size == -1){
+                    break;
+                    }
+                    add(process,name, size, useWorst);
+                    break;
+
+            case 2: name = getName();
+                    deleteProcess(process,name);
+                    break;
+
+            case 3: getFrag(process);
+                    break;
+
+            case 4: printList(process);
+
+
+        }
+    }while(choice != 5);
+
+    return 0;
+
+}
+
